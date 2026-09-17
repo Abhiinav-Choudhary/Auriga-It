@@ -76,3 +76,24 @@ export const getMembers = async (req, res) => {
         });
     }
 };
+
+export const getMemberById = async (req, res) => {
+    try {
+        const member = await Member.findById(req.params.id);
+
+        if (!member) {
+            return res.status(404).json({
+                message: "Member not found"
+            });
+        }
+
+        res.json({
+            member
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};

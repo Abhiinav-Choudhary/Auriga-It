@@ -2,8 +2,11 @@ import express from "express";
 
 import {
     purchase,
-    redeem
+    redeem,
+    getMemberTransactions
 } from "../controllers/transaction.controller.js";
+
+
 
 import authMiddleware from "../middleware/auth.middleware.js";
 
@@ -14,5 +17,10 @@ router.use(authMiddleware);
 router.post("/purchase", purchase);
 
 router.post("/redeem", redeem);
+
+router.get(
+    "/:memberId",
+    getMemberTransactions
+);
 
 export default router;

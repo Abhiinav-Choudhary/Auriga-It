@@ -110,3 +110,21 @@ export const redeem = async (req, res) => {
         });
     }
 };
+
+export const getMemberTransactions = async (req, res) => {
+    try {
+        const transactions = await Transaction.find({
+            member: req.params.memberId
+        })
+            .sort({ createdAt: -1 });
+
+        res.json({
+            transactions
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};

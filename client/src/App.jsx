@@ -49,6 +49,15 @@ function App() {
                         }
                     />
 
+                    <Route
+    path="/members/new"
+    element={
+        <ProtectedRoute>
+            <CreateMember />
+        </ProtectedRoute>
+    }
+/>
+
                 </Routes>
             </AuthProvider>
         </BrowserRouter>
