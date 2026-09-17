@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://localhost:5000/api",
+    baseURL: "https://jubilant-potato-pjq45w9v5jx3676j-5000.app.github.dev/api",
     withCredentials: true
 });
 
@@ -13,8 +13,10 @@ api.interceptors.response.use(
 
         if (
             error.response?.status === 401 &&
+            originalRequest &&
             !originalRequest._retry &&
-            !originalRequest.url.includes("/auth/refresh")
+            !originalRequest.url.includes("/auth/refresh") &&
+            !originalRequest.url.includes("/auth/me")
         ) {
             originalRequest._retry = true;
 
@@ -23,8 +25,6 @@ api.interceptors.response.use(
 
                 return api(originalRequest);
             } catch (refreshError) {
-                window.location.href = "/login";
-
                 return Promise.reject(refreshError);
             }
         }

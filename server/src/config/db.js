@@ -1,16 +1,18 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-export const connectDB = async()=>{
+export const connectDB = async () => {
     try {
-        if(!process.env.MONGO_URL){
-        console.log("NO mongo url found")
-    }
+        if (!process.env.MONGO_URL) {
+            throw new Error("MONGO_URL is not defined in .env");
+        }
 
-    const connectionInstance = await mongoose.connect(process.env.MONGO_URL)
+        const connectionInstance = await mongoose.connect(process.env.MONGO_URL);
 
-    console.log(connectionInstance.connection.host)
+        console.log(
+            `MongoDB connected: ${connectionInstance.connection.host}`
+        );
     } catch (error) {
-        console.log("Database error " , error)
+        console.error("Database error:", error.message);
+        process.exit(1);
     }
-    
-}
+};

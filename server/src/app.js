@@ -8,15 +8,19 @@ import transactionRoutes from "./routes/transaction.routes.js";
 
 const app = express();
 
+const allowedOrigin =
+    "https://jubilant-potato-pjq45w9v5jx3676j-5173.app.github.dev";
+
+console.log("Allowed CORS origin:", allowedOrigin);
+
 app.use(
     cors({
-        origin: process.env.CLIENT_URL,
+        origin: allowedOrigin,
         credentials: true
     })
 );
 
 app.use(express.json());
-
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
@@ -26,9 +30,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
-
 app.use("/api/members", memberRoutes);
-
 app.use("/api/transactions", transactionRoutes);
 
 export default app;
