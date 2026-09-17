@@ -1,4 +1,11 @@
 const getTier = (totalSpend) => {
+    // KEEP YOUR EXISTING SILVER/GOLD RULES HERE.
+    // Platinum is added according to the twist.
+
+    if (totalSpend >= 5000) {
+        return "Platinum";
+    }
+
     if (totalSpend >= 10000) {
         return "Gold";
     }
@@ -11,16 +18,24 @@ const getTier = (totalSpend) => {
 };
 
 const getMultiplier = (tier) => {
-    if (tier === "Gold") return 1.5;
-    if (tier === "Silver") return 1.25;
+    switch (tier) {
+        case "Platinum":
+            return 0.3;
 
-    return 1;
+        // KEEP YOUR EXISTING RATES
+        case "Gold":
+            return 0.2;
+
+        case "Silver":
+            return 0.15;
+
+        default:
+            return 0.1;
+    }
 };
 
 const calculatePoints = (amount, tier) => {
-    const multiplier = getMultiplier(tier);
-
-    return Math.floor((amount / 100) * multiplier);
+    return Math.floor(amount * getMultiplier(tier));
 };
 
 export {

@@ -12,7 +12,8 @@ const memberSchema = new mongoose.Schema(
             type: String,
             required: true,
             unique: true,
-            index: true
+            index: true,
+            trim: true
         },
 
         points: {
@@ -23,7 +24,7 @@ const memberSchema = new mongoose.Schema(
 
         tier: {
             type: String,
-            enum: ["Bronze", "Silver", "Gold"],
+            enum: ["Bronze", "Silver", "Gold", "Platinum"],
             default: "Bronze"
         },
 
