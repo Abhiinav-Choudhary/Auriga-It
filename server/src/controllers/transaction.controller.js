@@ -61,3 +61,52 @@ export const purchase = async (req, res) => {
         });
     }
 };
+
+export const redeem = async (req, res) => {
+    try {
+        const { memberId, points, description } = req.body;
+
+        if (!points || points <= 0) {
+            return res.status(400).json({
+                message: "Invalid redemption points"
+            });
+        }
+
+        const member = await Member.findById(memberId);
+
+        if (!member) {
+            return res.status(404).json({
+                message: "Member not found"
+            });
+        }
+
+        if (member.points < points) {
+            return res.status(400).json({
+                message: "Insufficient points"
+            });
+        }
+
+        member.points -= points;
+
+        await member.save();
+
+        const transaction = await Transaction.create({
+            member: member._id,
+            type: "REDEMPTION",
+            amount: 0,
+            points: -points,
+            description
+        });
+
+        res.status(201).json({
+            message: "Points redeemed successfully",
+            transaction,
+            member
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};
